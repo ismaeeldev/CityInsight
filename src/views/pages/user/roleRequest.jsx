@@ -108,7 +108,7 @@ const AllUser = () => {
                                         <TableCell align="center">
                                             {(currentPage - 1) * permissionPerPage + index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{user.name}</TableCell>
+                                        <TableCell align="center">{user.name|| ''}</TableCell>
                                         <TableCell align="center">{user.email}</TableCell>
                                         <TableCell align="center">{user.contact}</TableCell>
                                         <TableCell align="center">

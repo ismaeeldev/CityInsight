@@ -211,11 +211,11 @@ const ProductDashboard = () => {
                                     <TableRow key={product.id}>
                                         <TableCell align='center'>{(currentPage - 1) * products.length + index + 1}</TableCell>
                                         <TableCell align='center'>{product.title}</TableCell>
-                                        <TableCell align='center'>{product.category.name}</TableCell>
+                                        <TableCell align='center'>{product.category?.name}</TableCell>
                                         <TableCell align='center'>{product.featured ? "Yes" : "No"}</TableCell>
                                         <TableCell align='center'>{product.likes}</TableCell>
                                         <TableCell align='center'>{product.views}</TableCell>
-                                        <TableCell align='center'>{product.author.name}</TableCell>
+                                        <TableCell align='center'>{product.author?.name}</TableCell>
                                         {/* <TableCell align='center'>{product.averageRating}</TableCell> */}
                                         <TableCell align='center'>
                                             <Button onClick={() => { handleUpdate(product._id) }} variant="outlined" color="primary" size="small" style={{ border: "2px solid", borderRadius: '8px' }}>Edit</Button>

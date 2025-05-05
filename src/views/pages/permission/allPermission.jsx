@@ -299,7 +299,7 @@ const AllPermission = () => {
                                             }
                                         }}
                                     >
-                                        {admin.name}
+                                        {admin.name || ''}
                                     </TableCell>
                                     <TableCell
                                         align="center"

@@ -245,7 +245,7 @@ const AllCategories = () => {
                                             }
                                         }}
                                     >
-                                        {category.name}
+                                        {category.name || ''}
                                     </TableCell>
                                     <TableCell sx={{ pr: 12 }} align="right">
                                         <Button
