@@ -70,7 +70,7 @@ export default function PopularCard({ data, isLoading }) {
                       <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                         <Grid>
                           <Typography variant="subtitle1" color="inherit">
-                            {order.title}
+                            {order.title || ''}
                           </Typography>
                         </Grid>
                         <Grid>
@@ -78,7 +78,7 @@ export default function PopularCard({ data, isLoading }) {
 
                             <Grid>
                               <Typography variant="subtitle2" sx={{ marginLeft: '5px', color: order.paymentStatus == 'paid' ? 'success.dark' : 'orange.dark' }}>
-                                {order.author.name}
+                                {order.author?.name || ''}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -87,7 +87,7 @@ export default function PopularCard({ data, isLoading }) {
                     </Grid>
                     <Grid>
                       <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                        {order.author.role}
+                        {order.author?.role || ''}
                       </Typography>
                     </Grid>
                   </Grid>
