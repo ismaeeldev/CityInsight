@@ -47,7 +47,7 @@ const MainRoutes = {
       index: true,
       element: (
         <iframe
-          src="http://city-insights-nine.vercel.app"
+          src="https://city-insights-nine.vercel.app"
           style={{ width: '100%', height: '100vh', border: 'none' }}
           title="Main Website"
         />
