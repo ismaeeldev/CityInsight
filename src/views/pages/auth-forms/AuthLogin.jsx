@@ -134,11 +134,11 @@ export default function AuthLogin() {
             label="Keep me logged in"
           />
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Typography variant="subtitle1" component={Link} to='/admin/forget-password' color="secondary" sx={{ textDecoration: 'none' }}>
             Forgot Password?
           </Typography>
-        </Grid>
+        </Grid> */}
       </Grid>
 
       <Box sx={{ mt: 2 }}>

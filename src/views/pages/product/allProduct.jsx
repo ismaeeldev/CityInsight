@@ -127,12 +127,17 @@ const ProductDashboard = () => {
         : products;
 
 
-
-
-
     return (
         <Container>
-            <Box display="flex" justifyContent="space-between" alignItems="center" my={4}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    my: 4,
+                    gap: 2,
+                }} >
                 <FormControl style={{ minWidth: '100px' }}>
                     <InputLabel>Category</InputLabel>
                     <Select value={sortCategory} label="Category" onChange={handleCategoryChange}>
@@ -210,7 +215,14 @@ const ProductDashboard = () => {
                                 {visibleProducts.map((product, index) => (
                                     <TableRow key={product.id}>
                                         <TableCell align='center'>{(currentPage - 1) * products.length + index + 1}</TableCell>
-                                        <TableCell align='center'>{product.title}</TableCell>
+                                        <TableCell align="center">
+                                            {product.title
+                                                .split(' ')
+                                                .slice(0, 5) 
+                                                .join(' ') 
+                                                .concat('...')} 
+                                        </TableCell>
+
                                         <TableCell align='center'>{product.category?.name}</TableCell>
                                         <TableCell align='center'>{product.featured ? "Yes" : "No"}</TableCell>
                                         <TableCell align='center'>{product.likes}</TableCell>

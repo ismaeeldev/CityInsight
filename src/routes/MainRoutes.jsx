@@ -18,7 +18,6 @@ const AddProduct = Loadable(lazy(() => import('views/pages/product/addProduct'))
 const AllProduct = Loadable(lazy(() => import('views/pages/product/allProduct')));
 const EditProduct = Loadable(lazy(() => import('views/pages/product/editProduct')));
 const AllCategory = Loadable(lazy(() => import('views/pages/category/allCategory')));
-const AllOrder = Loadable(lazy(() => import('views/pages/order/allOrder')));
 const AllPermission = Loadable(lazy(() => import('views/pages/permission/allPermission')));
 const AllUser = Loadable(lazy(() => import('views/pages/user/allUser')));
 const Addads = Loadable(lazy(() => import('views/pages/ads/createAds')));
@@ -28,30 +27,12 @@ const RoleRequests = Loadable(lazy(() => import('views/pages/user/roleRequest'))
 // ==============================|| MAIN ROUTING ||============================== //
 
 
-// {
-//   index: true,
-//     element: (
-//       <iframe
-//         src="https://www.mywebsite.com"
-//         style={{ width: '100%', height: '100vh', border: 'none' }}
-//         title="Main Website"
-//       />
-//     )
-// }
-
-
 const MainRoutes = {
   path: '/',
   children: [
     {
       index: true,
-      element: (
-        <iframe
-          src="https://city-insights-nine.vercel.app"
-          style={{ width: '100%', height: '100vh', border: 'none' }}
-          title="Main Website"
-        />
-      )
+      element: <Navigate to="/admin" />
     },
     {
       path: 'typography',
@@ -107,10 +88,7 @@ const MainRoutes = {
               path: 'edit-product/:id',
               element: <EditProduct />
             },
-            {
-              path: 'all-order',
-              element: <AllOrder />
-            },
+           
             {
               path: 'all-permission',
               element: <AllPermission />

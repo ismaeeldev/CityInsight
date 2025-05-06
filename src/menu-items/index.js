@@ -1,6 +1,6 @@
 import dashboard from './dashboard';
 import Categories from './Categories';
-import Orders from './Orders'
+import Ads from './ads'
 import Products from './Products';
 import Permissions from './Permissions'
 import User from './User'
@@ -8,7 +8,7 @@ import User from './User'
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, Categories, Products, Permissions, Orders, User]
+  items: [dashboard, Categories, Products, Permissions, Ads, User]
 };
 
 export default menuItems;

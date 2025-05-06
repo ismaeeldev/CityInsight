@@ -70,7 +70,11 @@ export default function PopularCard({ data, isLoading }) {
                       <Grid container sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                         <Grid>
                           <Typography variant="subtitle1" color="inherit">
-                            {order.title || ''}
+                            {order.title
+                              .split(' ')
+                              .slice(0, 5)
+                              .join(' ')
+                              .concat('...') || 'No title'}
                           </Typography>
                         </Grid>
                         <Grid>

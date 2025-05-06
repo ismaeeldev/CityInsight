@@ -1,13 +1,12 @@
 // assets
-// import { IconKey } from '@tabler/icons-react';
-import { IconAdCircle } from '@tabler/icons-react';  // Changed to an order-related icon
+import { IconAdCircle } from '@tabler/icons-react';  // Using the correct order-related icon
 
-// constant
+// constants
 const icons = {
-    IconAdCircle
+    IconAdCircle,
 };
 
-// ==============================|| ORDER MANAGEMENT MENU ITEMS ||============================== //
+// ==============================|| ADS MANAGEMENT MENU ITEMS ||============================== //
 
 const orderManagement = {
     id: 'marketing-management',
@@ -17,28 +16,26 @@ const orderManagement = {
     type: 'group',
     children: [
         {
-            id: 'Ads',
+            id: 'ads',  // Changed to lowercase and hyphenated
             title: 'Ads',
             type: 'collapse',
             icon: icons.IconAdCircle,
             children: [
                 {
-                    id: 'Create Ads',
+                    id: 'create-ads',  // Lowercase and hyphenated for consistency
                     title: 'Create Ads',
                     type: 'item',
                     url: '/admin/create-ads',
                 },
                 {
-                    id: 'Ads Catalog',
+                    id: 'ads-catalog',  // Lowercase and hyphenated
                     title: 'Ads Catalog',
                     type: 'item',
                     url: '/admin/ad-catalog',
                 },
-
-            ]
+            ],
         },
-
-    ]
+    ],
 };
 
 export default orderManagement;
