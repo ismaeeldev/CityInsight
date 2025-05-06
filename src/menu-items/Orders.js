@@ -17,7 +17,7 @@ const orderManagement = {
     type: 'group',
     children: [
         {
-            id: 'ads',
+            id: 'Ads',
             title: 'Ads',
             type: 'collapse',
             icon: icons.IconAdCircle,
