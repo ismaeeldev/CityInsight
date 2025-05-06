@@ -66,7 +66,6 @@ const MainProvider = ({ children }) => {
         if (userInfo) {
             setAdminRole(userInfo.role);
             setAdminName(userInfo.name);
-            console.log(userInfo.role);
         }
         console.log(adminName);
         console.log(adminRole);
