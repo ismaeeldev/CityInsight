@@ -25,6 +25,12 @@ const AdAddPage = () => {
         image: null,
     });
 
+    if (adminRole?.toLowerCase() !== "admin") {
+        return (
+            <AccessDenied />
+        );
+    }
+
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         if (type === 'file') {
@@ -90,7 +96,7 @@ const AdAddPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-     
+
 
         const formData = new FormData();
         formData.append('businessName', adData.businessName);
