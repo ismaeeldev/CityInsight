@@ -16,7 +16,7 @@ const AccessDenied = () => {
         <div style={styles.container}>
             <h1 style={styles.heading}>Access Denied</h1>
             <hr style={styles.hr} />
-            <h3 style={styles.message}>You don't have permission to view this.</h3>
+            <h3 style={styles.message}>You don't have permission to view this tab </h3>
             <h3 style={styles.icons}>🚫🚫🚫🚫</h3>
         </div>
     );
