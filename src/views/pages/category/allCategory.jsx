@@ -8,7 +8,7 @@ import { MainContext } from '../../context/index.jsx';
 import { useNavigate } from 'react-router';
 import { Description } from '@mui/icons-material';
 import AccessDenied from '../../Error/AccessDenied.jsx';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 const AllCategories = () => {
@@ -19,6 +19,8 @@ const AllCategories = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [newCategory, setNewCategory] = useState("");
+    const [Newloading, setNewLoading] = useState(false);
+
     const [editingCategory, setEditingCategory] = useState({
         name: "",
         description: "",
@@ -61,6 +63,7 @@ const AllCategories = () => {
             icon: 'error',
             confirmButtonText: 'OK'
         });
+        setNewLoading(true)
 
         try {
             const response = await fetch(`${BASE_URL}/categories/add-category`, {
@@ -92,6 +95,8 @@ const AllCategories = () => {
             fetchCategories();
         } catch (error) {
             alert(`Error: ${error.message}`);
+        } finally {
+            setNewLoading(false)
         }
     };
 
@@ -119,7 +124,7 @@ const AllCategories = () => {
         } catch (error) {
             alert(`Error: ${error.message}`);
             fetchCategories();
-        }
+        } 
     };
 
     const handleEdit = (category) => {
@@ -135,7 +140,7 @@ const AllCategories = () => {
             confirmButtonText: 'OK'
         });
 
-
+        setNewLoading(true);
         try {
             const response = await fetch(`${BASE_URL}/categories/update-category/${editingCategory._id}`, {
                 method: 'PUT',
@@ -175,6 +180,8 @@ const AllCategories = () => {
             }
         } catch (error) {
             alert(`Error: ${error.message}`);
+        } finally {
+            setNewLoading(false);
         }
     };
 
@@ -317,7 +324,7 @@ const AllCategories = () => {
                         Cancel
                     </Button>
                     <Button onClick={handleAddCategory} color="primary">
-                        Add
+                        {Newloading ? <CircularProgress size={24} color="inherit" /> : 'Add'}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -374,7 +381,7 @@ const AllCategories = () => {
                         Cancel
                     </Button>
                     <Button onClick={handleUpdateCategory} color="primary">
-                        Update
+                        {Newloading ? <CircularProgress size={24} color="inherit" /> : 'Update'}
                     </Button>
                 </DialogActions>
             </Dialog>

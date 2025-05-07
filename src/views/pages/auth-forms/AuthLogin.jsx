@@ -20,7 +20,7 @@ import Cookies from 'js-cookie';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { MainContext } from '../../context';
 import Swal from 'sweetalert2'
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function AuthLogin() {
@@ -32,6 +32,8 @@ export default function AuthLogin() {
   const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const { setAdminRole, setAdminName } = useContext(MainContext)
+  const [loading, setLoading] = useState(false);
+
 
 
   const handleClickShowPassword = () => {
@@ -44,6 +46,7 @@ export default function AuthLogin() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch(`${BASE_URL}/users/login`, {
@@ -83,7 +86,10 @@ export default function AuthLogin() {
         icon: 'error',
         confirmButtonText: 'OK'
       });
+    } finally {
+      setLoading(false);
     }
+
   };
 
 
@@ -134,17 +140,14 @@ export default function AuthLogin() {
             label="Keep me logged in"
           />
         </Grid>
-        {/* <Grid item>
-          <Typography variant="subtitle1" component={Link} to='/admin/forget-password' color="secondary" sx={{ textDecoration: 'none' }}>
-            Forgot Password?
-          </Typography>
-        </Grid> */}
+
       </Grid>
 
       <Box sx={{ mt: 2 }}>
         <AnimateButton>
           <Button onClick={handleLogin} color="secondary" fullWidth size="large" type="submit" variant="contained">
-            Sign In
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
+
           </Button>
         </AnimateButton>
       </Box>

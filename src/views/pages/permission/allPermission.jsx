@@ -17,6 +17,7 @@ const AllPermission = () => {
     const { adminRole } = useContext(MainContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [Newloading, setNewLoading] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [editRole, setEditRole] = useState(null);
@@ -83,6 +84,8 @@ const AllPermission = () => {
 
         }
 
+        setNewLoading(true);
+
         try {
             const response = await fetch(`${BASE_URL}/admin/create-user`, {
                 method: 'POST',
@@ -110,6 +113,8 @@ const AllPermission = () => {
             fetchPermission();
         } catch (error) {
             alert(`Error: ${error.message}`);
+        } finally {
+            setNewLoading(false);
         }
     };
 
@@ -162,6 +167,7 @@ const AllPermission = () => {
 
         }
 
+        setNewLoading(true);
         try {
             const response = await fetch(`${BASE_URL}/admin/change-role/${editRole.id}`, {
                 method: 'PATCH',
@@ -190,6 +196,8 @@ const AllPermission = () => {
             fetchPermission();
         } catch (error) {
             alert(`Error: ${error.message}`);
+        } finally {
+            setNewLoading(false)
         }
     };
 
@@ -431,7 +439,8 @@ const AllPermission = () => {
                         Cancel
                     </Button>
                     <Button onClick={handleAddRole} color="primary" variant="contained">
-                        Add
+                        {Newloading ? <CircularProgress size={24} color="inherit" /> : 'Add'}
+
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -488,7 +497,8 @@ const AllPermission = () => {
                         Cancel
                     </Button>
                     <Button onClick={handleEditRole} color="primary">
-                        Update
+                        {Newloading ? <CircularProgress size={24} color="inherit" /> : 'Update'}
+
                     </Button>
                 </DialogActions>
             </Dialog>

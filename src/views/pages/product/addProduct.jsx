@@ -5,6 +5,7 @@ import { MainContext } from '../../context/index.jsx';
 import { useNavigate } from 'react-router';
 import AccessDenied from '../../Error/AccessDenied.jsx';
 import Swal from 'sweetalert2'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const ProductAddPage = () => {
@@ -12,6 +13,7 @@ const ProductAddPage = () => {
     const { categories, fetchCategories, adminRole } = useContext(MainContext);
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [productData, setProductData] = useState({
         title: "",
         content: "",
@@ -61,6 +63,7 @@ const ProductAddPage = () => {
             });
 
         }
+        setLoading(true);
 
         const formData = new FormData();
 
@@ -123,6 +126,8 @@ const ProductAddPage = () => {
                 confirmButtonText: 'OK'
             });
 
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -306,7 +311,10 @@ const ProductAddPage = () => {
                     <Grid item xs={12}>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
                             <Button onClick={handleDiscard} variant="outlined" color="error">Discard Changes</Button>
-                            <Button variant="contained" color="primary" type="submit">Add Posts</Button>
+                            <Button variant="contained" color="primary" type="submit">
+                                {loading ? <CircularProgress size={24} color="inherit" /> : 'Add Post'}
+
+                            </Button>
                         </div>
                     </Grid>
                 </Grid>

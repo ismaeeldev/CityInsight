@@ -7,12 +7,15 @@ import { MainContext } from '../../context/index.jsx';
 import { useNavigate } from 'react-router';
 import AccessDenied from '../../Error/AccessDenied.jsx';
 import Swal from 'sweetalert2';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const AdAddPage = () => {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const { adminRole } = useContext(MainContext);
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const [adData, setAdData] = useState({
         businessName: "",
@@ -60,6 +63,8 @@ const AdAddPage = () => {
                 confirmButtonText: 'OK'
             });
         }
+
+        setLoading(true)
 
         const formData = new FormData();
         formData.append('businessName', adData.businessName);
@@ -114,6 +119,8 @@ const AdAddPage = () => {
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -224,7 +231,10 @@ const AdAddPage = () => {
                     <Grid item xs={12}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
                             <Button onClick={handleDiscard} variant="outlined" color="error">Discard</Button>
-                            <Button type="submit" variant="contained" color="primary">Add Ad</Button>
+                            <Button type="submit" variant="contained" color="primary">
+                                {loading ? <CircularProgress size={24} color="inherit" /> : 'Add'}
+
+                            </Button>
                         </Box>
                     </Grid>
                 </Grid>

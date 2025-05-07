@@ -5,6 +5,7 @@ import { MainContext } from '../../context/index.jsx';
 import { useNavigate, useParams } from 'react-router';
 import AccessDenied from '../../Error/AccessDenied.jsx';
 import Swal from 'sweetalert2'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const ProductEditPage = () => {
@@ -13,6 +14,7 @@ const ProductEditPage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
+    const [loading, setLoading] = useState(false);
     const [productData, setProductData] = useState({
         title: "",
         content: "",
@@ -96,6 +98,8 @@ const ProductEditPage = () => {
         const isConfirmed = window.confirm("Are you sure you want to update this post?");
         if (!isConfirmed) return;
 
+        setLoading(true);
+
         const formData = new FormData();
 
         // Append fields
@@ -158,6 +162,8 @@ const ProductEditPage = () => {
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
+        } finally {
+            setLoading(false)
         }
 
     };
@@ -317,7 +323,9 @@ const ProductEditPage = () => {
                     <Grid item xs={12}>
                         <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
                             <Button onClick={handleDiscard} variant="outlined" color="error">Discard Changes</Button>
-                            <Button variant="contained" color="warning" type="submit">Update Product</Button>
+                            <Button variant="contained" color="warning" type="submit">
+                                {loading ? <CircularProgress size={24} color="inherit" /> : 'Update Post'}
+                            </Button>
                         </div>
                     </Grid>
                 </Grid>
