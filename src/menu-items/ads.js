@@ -17,7 +17,7 @@ const orderManagement = {
     children: [
         {
             id: 'ads',  // Changed to lowercase and hyphenated
-            title: 'Ads',
+            title: 'Marketing',
             type: 'collapse',
             icon: icons.IconAdCircle,
             children: [
