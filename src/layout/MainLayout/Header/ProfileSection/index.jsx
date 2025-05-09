@@ -73,13 +73,14 @@ export default function ProfileSection() {
 
 
   const handleLogout = () => {
-    document.cookie = 'adminToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = 'adminToken=; Path=/;';
 
     setAdminName('');
     setAdminRole('');
 
     navigate('/admin/login');
   };
+
 
   return (
     <>
