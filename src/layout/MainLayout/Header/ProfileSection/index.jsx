@@ -142,7 +142,7 @@ export default function ProfileSection() {
                     <Box sx={{ p: 2, pb: 0 }}>
                       <Stack>
                         <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center' }}>
-                          <Typography variant="h4">Good Morning,</Typography>
+                          <Typography variant="h4">Welcome </Typography>
                           <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
                             {adminName}
                           </Typography>
