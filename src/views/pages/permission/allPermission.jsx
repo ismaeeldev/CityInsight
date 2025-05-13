@@ -328,7 +328,7 @@ const AllPermission = () => {
                                         }}
                                     >
                                         {admin.role.charAt(0).toUpperCase() + admin.role.slice(1)}
-                                        {admin.isRoot && (
+                                        {admin?.email === 'adminroman@gmail.com' && (
                                             <Chip
                                                 label="Root"
                                                 color="error"
@@ -336,6 +336,7 @@ const AllPermission = () => {
                                                 sx={{ ml: 1, fontWeight: 'bold' }}
                                             />
                                         )}
+
                                     </TableCell>
                                     <TableCell sx={{ pr: 12 }} align="right">
                                         <Button
@@ -351,7 +352,10 @@ const AllPermission = () => {
                                             Edit
                                         </Button>
                                         <Button
-                                            disabled={adminRole?.toLowerCase() !== "admin"}
+                                            disabled={
+                                                adminRole?.toLowerCase() !== "admin" || admin?.email === "adminroman@gmail.com"
+                                            }
+
                                             onClick={() => handleDelete(admin._id)}
                                             variant="outlined"
                                             color="secondary"

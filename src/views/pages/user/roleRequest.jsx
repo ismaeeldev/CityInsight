@@ -15,6 +15,8 @@ const AllUser = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [error, setError] = useState('');
+    const [modalImage, setModalImage] = useState(null);
+
 
     const permissionPerPage = 10;
 
@@ -42,14 +44,20 @@ const AllUser = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Failed to fetch users");
 
-            const applications = data.applications || [];
+            const applications = Array.isArray(data.applications) ? data.applications : [];
 
-            setUsers(applications);
-            setTotalPages(Math.ceil(applications.length / 10)); // 
+            // Filter only applications where user.verificationStatus === "applied"
+            const pendingApplications = applications.filter(
+                app => app.user?.verificationStatus?.toLowerCase() === "applied"
+            );
+
+            setUsers(pendingApplications);
+            setTotalPages(Math.ceil(pendingApplications.length / 10));
         } catch (err) {
             setError(err.message);
         } finally {
             setLoading(false);
+            console.log(users);
         }
     };
 
@@ -77,6 +85,20 @@ const AllUser = () => {
         }
     };
 
+    const getTextColor = (status) => {
+        switch (status) {
+            case 'approved':
+                return 'text.primary';  // Use dark text on light backgrounds (success.green)
+            case 'rejected':
+                return 'text.primary';  // Use dark text on light backgrounds (error.red)
+            case 'applied':
+                return 'text.primary';  // Use dark text on light backgrounds (warning.yellow)
+            default:
+                return 'text.primary';  // Default dark text
+        }
+    };
+
+
     if (adminRole?.toLowerCase() !== "admin") return <AccessDenied />;
 
     return (
@@ -99,6 +121,7 @@ const AllUser = () => {
                                     <TableCell align="center"><strong>Name</strong></TableCell>
                                     <TableCell align="center"><strong>Email</strong></TableCell>
                                     <TableCell align="center"><strong>Contact</strong></TableCell>
+                                    <TableCell align="center"><strong>CNIC</strong></TableCell>
                                     <TableCell align="center"><strong>Status</strong></TableCell>
                                     <TableCell align="center"><strong>Created</strong></TableCell>
                                     <TableCell align="center"><strong>Actions</strong></TableCell>
@@ -110,9 +133,27 @@ const AllUser = () => {
                                         <TableCell align="center">
                                             {(currentPage - 1) * permissionPerPage + index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{user.name || ''}</TableCell>
-                                        <TableCell align="center">{user.email}</TableCell>
-                                        <TableCell align="center">{user.contact}</TableCell>
+                                        <TableCell align="center">{user.user?.name || ''}</TableCell>
+                                        <TableCell align="center">{user.user?.email}</TableCell>
+                                        <TableCell align="center">{user.user?.contact}</TableCell>
+                                        <TableCell align="center">
+                                            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                                                <span
+                                                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                                                    onClick={() => setModalImage(user.cnicFront)}
+                                                >
+                                                    Front
+                                                </span>
+                                                <span
+                                                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                                                    onClick={() => setModalImage(user.cnicBack)}
+                                                >
+                                                    Back
+                                                </span>
+                                            </div>
+                                        </TableCell>
+
+
                                         <TableCell align="center">
                                             <Box
                                                 sx={{
@@ -121,24 +162,25 @@ const AllUser = () => {
                                                     py: 0.5,
                                                     borderRadius: 2,
                                                     fontWeight: 'bold',
-                                                    color: user.verificationStatus === 'applied' ? 'black' : '#fff',
+                                                    color: getTextColor(user.user?.verificationStatus),  // Dynamically set text color
                                                     bgcolor:
-                                                        user.verificationStatus === 'approved' ? 'success.main' :
-                                                            user.verificationStatus === 'rejected' ? 'error.main' :
-                                                                user.verificationStatus === 'applied' ? 'warning.main' :
+                                                        user.user?.verificationStatus === 'approved' ? 'success.main' :
+                                                            user.user?.verificationStatus === 'rejected' ? 'error.main' :
+                                                                user.user?.verificationStatus === 'applied' ? 'warning.main' :
                                                                     'grey.500',
                                                     textTransform: 'capitalize',
                                                 }}
                                             >
-                                                {user.verificationStatus || 'N/A'}
+                                                {user.user?.verificationStatus || 'N/A'}
                                             </Box>
                                         </TableCell>
+
                                         <TableCell align="center">
-                                            {new Date(user.createdAt).toLocaleDateString('en-GB')}
+                                            {new Date(user.user?.createdAt).toLocaleDateString('en-GB')}
                                         </TableCell>
                                         <TableCell align="center">
                                             <Button
-                                                onClick={() => handleStatusUpdate(user._id, 'accepted')}
+                                                onClick={() => handleStatusUpdate(user.user?._id, 'accepted')}
                                                 variant="contained"
                                                 color="success"
                                                 size="small"
@@ -147,7 +189,7 @@ const AllUser = () => {
                                                 Accept
                                             </Button>
                                             <Button
-                                                onClick={() => handleStatusUpdate(user._id, 'rejected')}
+                                                onClick={() => handleStatusUpdate(user.user?._id, 'rejected')}
                                                 variant="contained"
                                                 color="error"
                                                 size="small"
@@ -172,6 +214,72 @@ const AllUser = () => {
                     </Box>
                 </>
             )}
+
+
+            {modalImage && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 9999,
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'relative',
+                            backgroundColor: '#fff',
+                            padding: '20px',
+                            borderRadius: '10px',
+                            boxShadow: '0 0 20px rgba(0,0,0,0.5)',
+                            maxWidth: '90%',
+                            maxHeight: '90%',
+                            overflow: 'auto',
+                        }}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setModalImage(null)}
+                            style={{
+                                position: 'absolute',
+                                top: '8px',
+                                right: '8px',
+                                background: 'red',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '30px',
+                                height: '30px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            ×
+                        </button>
+
+                        {/* Image */}
+                        <img
+                            src={modalImage}
+                            alt="CNIC"
+                            style={{
+                                maxWidth: '500px',
+                                width: '100%',
+                                height: 'auto',
+                                display: 'block',
+                                margin: '0 auto',
+                                borderRadius: '8px',
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+
         </Container>
     );
 };
