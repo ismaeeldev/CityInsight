@@ -42,8 +42,10 @@ const AllUser = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || "Failed to fetch users");
 
-            setUsers(data.users || []);
-            setTotalPages(data.totalPages || 1);
+            const applications = data.applications || [];
+
+            setUsers(applications);
+            setTotalPages(Math.ceil(applications.length / 10)); // 
         } catch (err) {
             setError(err.message);
         } finally {
@@ -108,7 +110,7 @@ const AllUser = () => {
                                         <TableCell align="center">
                                             {(currentPage - 1) * permissionPerPage + index + 1}
                                         </TableCell>
-                                        <TableCell align="center">{user.name|| ''}</TableCell>
+                                        <TableCell align="center">{user.name || ''}</TableCell>
                                         <TableCell align="center">{user.email}</TableCell>
                                         <TableCell align="center">{user.contact}</TableCell>
                                         <TableCell align="center">
@@ -122,9 +124,9 @@ const AllUser = () => {
                                                     color: user.verificationStatus === 'applied' ? 'black' : '#fff',
                                                     bgcolor:
                                                         user.verificationStatus === 'approved' ? 'success.main' :
-                                                        user.verificationStatus === 'rejected' ? 'error.main' :
-                                                        user.verificationStatus === 'applied' ? 'warning.main' :
-                                                        'grey.500',
+                                                            user.verificationStatus === 'rejected' ? 'error.main' :
+                                                                user.verificationStatus === 'applied' ? 'warning.main' :
+                                                                    'grey.500',
                                                     textTransform: 'capitalize',
                                                 }}
                                             >
