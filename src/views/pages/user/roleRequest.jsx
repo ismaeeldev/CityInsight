@@ -57,7 +57,6 @@ const AllUser = () => {
             setError(err.message);
         } finally {
             setLoading(false);
-            console.log(users);
         }
     };
 
