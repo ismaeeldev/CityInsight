@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
     Container, Box, Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, Paper, Button, CircularProgress, Pagination
+    TableHead, TableRow, Paper, Button, CircularProgress, Pagination, Stack
 } from '@mui/material';
 import { MainContext } from '../../context/index.jsx';
 import AccessDenied from '../../Error/AccessDenied.jsx';
@@ -121,6 +121,7 @@ const AllUser = () => {
                                     <TableCell align="center"><strong>Name</strong></TableCell>
                                     <TableCell align="center"><strong>Email</strong></TableCell>
                                     <TableCell align="center"><strong>Contact</strong></TableCell>
+                                    <TableCell align="center"><strong>Photo</strong></TableCell>
                                     <TableCell align="center"><strong>CNIC</strong></TableCell>
                                     <TableCell align="center"><strong>Status</strong></TableCell>
                                     <TableCell align="center"><strong>Created</strong></TableCell>
@@ -136,6 +137,17 @@ const AllUser = () => {
                                         <TableCell align="center">{user.user?.name || ''}</TableCell>
                                         <TableCell align="center">{user.user?.email}</TableCell>
                                         <TableCell align="center">{user.user?.contact}</TableCell>
+                                        <TableCell align="center">
+                                            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                                                <span
+                                                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                                                    onClick={() => setModalImage(user.facePhoto)}
+                                                >
+                                                    View
+                                                </span>
+
+                                            </div>
+                                        </TableCell>
                                         <TableCell align="center">
                                             <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
                                                 <span
@@ -179,24 +191,31 @@ const AllUser = () => {
                                             {new Date(user.user?.createdAt).toLocaleDateString('en-GB')}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Button
-                                                onClick={() => handleStatusUpdate(user.user?._id, 'accepted')}
-                                                variant="contained"
-                                                color="success"
-                                                size="small"
-                                                style={{ marginRight: '8px', borderRadius: '8px' }}
+                                            <Stack
+                                                direction={{ xs: 'column', sm: 'row' }} // Stack on xs, row on sm+
+                                                spacing={1}
+                                                justifyContent="center"
+                                                alignItems="center"
                                             >
-                                                Accept
-                                            </Button>
-                                            <Button
-                                                onClick={() => handleStatusUpdate(user.user?._id, 'rejected')}
-                                                variant="contained"
-                                                color="error"
-                                                size="small"
-                                                style={{ borderRadius: '8px' }}
-                                            >
-                                                Reject
-                                            </Button>
+                                                <Button
+                                                    onClick={() => handleStatusUpdate(user.user?._id, 'accepted')}
+                                                    variant="contained"
+                                                    color="success"
+                                                    size="small"
+                                                    sx={{ borderRadius: '8px', width: { xs: '100%', sm: 'auto' } }}
+                                                >
+                                                    Accept
+                                                </Button>
+                                                <Button
+                                                    onClick={() => handleStatusUpdate(user.user?._id, 'rejected')}
+                                                    variant="contained"
+                                                    color="error"
+                                                    size="small"
+                                                    sx={{ borderRadius: '8px', width: { xs: '100%', sm: 'auto' } }}
+                                                >
+                                                    Reject
+                                                </Button>
+                                            </Stack>
                                         </TableCell>
                                     </TableRow>
                                 ))}
