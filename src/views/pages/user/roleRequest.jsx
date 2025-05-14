@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { MainContext } from '../../context/index.jsx';
 import AccessDenied from '../../Error/AccessDenied.jsx';
+import Swal from 'sweetalert2'
 
 const AllUser = () => {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -16,6 +17,7 @@ const AllUser = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [error, setError] = useState('');
     const [modalImage, setModalImage] = useState(null);
+
 
 
     const permissionPerPage = 10;
@@ -46,7 +48,6 @@ const AllUser = () => {
 
             const applications = Array.isArray(data.applications) ? data.applications : [];
 
-            // Filter only applications where user.verificationStatus === "applied"
             const pendingApplications = applications.filter(
                 app => app.user?.verificationStatus?.toLowerCase() === "applied"
             );
@@ -74,10 +75,20 @@ const AllUser = () => {
 
             const data = await res.json();
             if (res.ok) {
-                alert(data.message);
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
                 fetchUsers();
             } else {
-                alert(data.message || 'Failed to update status');
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message || 'Failed to update status',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
         } catch (error) {
             console.error('Error updating status:', error);
